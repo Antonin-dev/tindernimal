@@ -5,23 +5,27 @@ import { Owner } from './entities/owner.entity';
 
 @Injectable()
 export class OwnerService {
+  private readonly owners: Owner[] = [];
+
   create(owner: CreateOwnerDto): Owner {
+    this.owners.push(owner);
     return owner;
   }
 
   findAll() {
-    return `This action returns all owner`;
+    return this.owners;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} owner`;
+    return this.owners[id];
   }
 
   update(id: number, updateOwnerDto: UpdateOwnerDto) {
-    return `This action updates a #${id} owner`;
+    // this.owners[id] = updateOwnerDto;
+    return updateOwnerDto;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} owner`;
+    return this.owners[id];
   }
 }

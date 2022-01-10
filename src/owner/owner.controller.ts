@@ -10,7 +10,8 @@ import {
 import { OwnerService } from './owner.service';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Owner } from './entities/owner.entity';
 
 @Controller('owner')
 @ApiTags('Owner')
@@ -18,11 +19,24 @@ export class OwnerController {
   constructor(private readonly ownerService: OwnerService) {}
 
   @Post()
+  @ApiCreatedResponse({
+    description: 'owner created',
+    type: Owner,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'access denied',
+  })
   create(@Body() createOwnerDto: CreateOwnerDto) {
     return this.ownerService.create(createOwnerDto);
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'The found record',
+    type: Owner,
+  })
   findAll() {
     return this.ownerService.findAll();
   }
