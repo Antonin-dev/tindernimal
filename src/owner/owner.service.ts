@@ -13,9 +13,8 @@ export class OwnerService {
 
   async create(owner: CreateOwnerDto): Promise<Owner> {
     console.log('owner from dto', owner);
-    const createdOwner = new this.ownerModel(owner);
-    console.log(createdOwner);
-    return createdOwner.save();
+    const createdOwner = this.ownerModel.create(owner);
+    return createdOwner;
   }
 
   async findAll(): Promise<Owner[]> {
