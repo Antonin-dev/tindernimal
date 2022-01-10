@@ -10,7 +10,8 @@ import {
 import { OwnerService } from './owner.service';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Owner } from './schemas/owner.schema';
 
 @Controller('owner')
 @ApiTags('Owner')
@@ -18,7 +19,8 @@ export class OwnerController {
   constructor(private readonly ownerService: OwnerService) {}
 
   @Post()
-  create(@Body() createOwnerDto: CreateOwnerDto) {
+  @ApiOperation({ summary: 'Create owner' })
+  async create(@Body() createOwnerDto: CreateOwnerDto): Promise<Owner> {
     return this.ownerService.create(createOwnerDto);
   }
 
