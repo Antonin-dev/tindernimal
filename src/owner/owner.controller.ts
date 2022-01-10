@@ -11,7 +11,12 @@ import { OwnerService } from './owner.service';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
 
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Owner } from './schemas/owner.schema';
 
 @Controller('owner')
@@ -20,10 +25,7 @@ export class OwnerController {
   constructor(private readonly ownerService: OwnerService) {}
 
   @Post()
-
   @ApiOperation({ summary: 'Create owner' })
-  async create(@Body() createOwnerDto: CreateOwnerDto): Promise<Owner> {
-
   @ApiCreatedResponse({
     description: 'owner created',
     type: Owner,
@@ -32,7 +34,7 @@ export class OwnerController {
     status: 401,
     description: 'access denied',
   })
-  create(@Body() createOwnerDto: CreateOwnerDto) {
+  async create(@Body() createOwnerDto: CreateOwnerDto): Promise<Owner> {
     return this.ownerService.create(createOwnerDto);
   }
 
