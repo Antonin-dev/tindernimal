@@ -34,7 +34,7 @@ export class OwnerController {
     status: 401,
     description: 'access denied',
   })
-  create(@Body() createOwnerDto: CreateOwnerDto) {
+  async create(@Body() createOwnerDto: CreateOwnerDto): Promise<Owner> {
     return this.ownerService.create(createOwnerDto);
   }
 
