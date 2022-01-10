@@ -1,31 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateOwnerDto } from './dto/create-owner.dto';
 import { UpdateOwnerDto } from './dto/update-owner.dto';
-import { Owner } from './entities/owner.entity';
+import { Owner, OwnerDocument } from './schemas/owner.schema';
 
 @Injectable()
 export class OwnerService {
-  private readonly owners: Owner[] = [];
+  constructor(
+    @InjectModel(Owner.name) private ownerModel: Model<OwnerDocument>,
+  ) {}
 
-  create(owner: CreateOwnerDto): Owner {
-    this.owners.push(owner);
-    return owner;
+  async create(owner: CreateOwnerDto): Promise<Owner> {
+    console.log('owner from dto', owner);
+    const createdOwner = this.ownerModel.create(owner);
+    return createdOwner;
   }
 
-  findAll() {
-    return this.owners;
+  async findAll(): Promise<Owner[]> {
+    return this.ownerModel.find().exec();
   }
 
   findOne(id: number) {
-    return this.owners[id];
+    return `This action returns a #${id} owner`;
   }
 
   update(id: number, updateOwnerDto: UpdateOwnerDto) {
-    // this.owners[id] = updateOwnerDto;
-    return updateOwnerDto;
+    return `This action updates a #${id} owner`;
   }
 
   remove(id: number) {
-    return this.owners[id];
+    return `This action removes a #${id} owner`;
   }
 }
